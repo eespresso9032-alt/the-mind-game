@@ -138,7 +138,9 @@ async def ws_handler(request):
                 touch(room)
 
             if t in ('createRoom', 'joinRoom'):
-                if d.get('gameKey', '').upper() != GAME_KEY:
+                _recv = d.get('gameKey', '').strip().upper()
+                print(f'[AUTH] recv={_recv!r} KEY={GAME_KEY!r} match={_recv==GAME_KEY}')
+                if _recv != GAME_KEY:
                     await emit(ws, 'error', message='ゲームキーが違います')
                     continue
 
