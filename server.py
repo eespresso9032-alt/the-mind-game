@@ -61,8 +61,7 @@ def pub(room):
     return {
         'code':        room['code'],
         'host':        room['host'],
-        'level':       room['level'],
-        'maxLevel':    room['maxLevel'],
+        'round':       room.get('round', 1),
         'lives':       room['lives'],
         'stars':       room['stars'],
         'playedCards': room['playedCards'],
@@ -93,19 +92,9 @@ async def bcast_with_cards(room, t, **kw):
             await w.send_json({'type': 'yourCards', 'cards': p['cards']})
 
 async def advance_level(room):
-    if room['level'] >= room['maxLevel']:
-        room['status'] = 'won'
-        await bcast(room, 'gameWon')
-        return
-    nxt = room['level'] + 1
-    n   = len(room['players'])
-    lb  = 1 if nxt in LIFE_BONUS.get(n, set()) else 0
-    sb  = 1 if nxt in STAR_BONUS.get(n, set()) else 0
-    room['level'] = nxt
-    room['lives'] = min(room['lives'] + lb, n + 3)
-    room['stars'] += sb
+    room['round'] = room.get('round', 1) + 1
     deal_cards(room)
-    await bcast_with_cards(room, 'levelClear', lifeBonus=lb, starBonus=sb)
+    await bcast_with_cards(room, 'roundClear', round=room['round'])
 
 # ── Room expiry ───────────────────────────────────────────
 async def cleanup_loop():

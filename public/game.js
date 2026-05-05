@@ -90,7 +90,7 @@ function renderLobby(r) {
 // ── Game ───────────────────────────────────────────────
 function renderGame(r) {
   room = r;
-  document.getElementById('g-level').textContent = `${r.level} / ${r.maxLevel}`;
+  document.getElementById('g-round').textContent = r.round ?? 1;
   document.getElementById('g-lives').textContent = '❤️'.repeat(Math.max(0, r.lives)) || '－';
   document.getElementById('g-stars').textContent = r.stars > 0 ? '⭐'.repeat(r.stars) : '－';
   document.getElementById('btn-star').disabled = r.stars <= 0;
@@ -182,7 +182,7 @@ function handle(d) {
       hideOverlay();
       showScreen('screen-game');
       renderGame(d.room);
-      showToast(`レベル ${d.room.level} スタート！`, 'success', 1800);
+      showToast(`ラウンド 1 スタート！`, 'success', 1800);
       break;
 
     case 'yourCards':
@@ -216,14 +216,13 @@ function handle(d) {
       );
       break;
 
-    case 'levelClear': {
+    case 'roundClear': {
       renderGame(d.room);
       sfxLevelClear();
-      const bonus = [d.lifeBonus && '❤️ +1', d.starBonus && '⭐ +1'].filter(Boolean).join('　');
       showOverlay({
         icon: '✨',
-        title: `レベル ${d.room.level - 1} クリア！`,
-        msg: `次はレベル ${d.room.level}${bonus ? '\n' + bonus : ''}`,
+        title: `ラウンド ${d.round - 1} クリア！`,
+        msg: `次はラウンド ${d.round}`,
         showRestart: false, showLobby: false,
       });
       setTimeout(hideOverlay, 2500);
@@ -237,17 +236,6 @@ function handle(d) {
         icon: '💀',
         title: 'ゲームオーバー',
         msg: `${d.playerName} が ${d.wrongCard} を出してミス…\nレベル ${d.room.level} で力尽きた`,
-        showRestart: d.room.host === myId,
-        showLobby: d.room.host === myId,
-      });
-      break;
-
-    case 'gameWon':
-      sfxVictory();
-      showOverlay({
-        icon: '🏆',
-        title: '完全制覇！',
-        msg: `全 ${d.room.maxLevel} レベルをクリア！\nみんなの心がひとつになった`,
         showRestart: d.room.host === myId,
         showLobby: d.room.host === myId,
       });
