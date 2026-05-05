@@ -49,8 +49,8 @@ def deal_cards(room):
     deck = random.sample(range(1, 101), 100)
     idx = 0
     for p in room['players']:
-        p['cards'] = sorted(deck[idx:idx + 3])
-        idx += 3
+        p['cards'] = sorted(deck[idx:idx + 5])
+        idx += 5
     room['playedCards'] = []
     room['last_active'] = time.time()
 
