@@ -11,7 +11,7 @@ import aiohttp
 
 # ── Config ───────────────────────────────────────────────
 PORT         = int(os.environ.get('PORT', 3000))
-GAME_KEY     = os.environ.get('GAME_KEY', ''.join(random.choices('ABCDEFGHJKLMNPQRSTUVWXYZ23456789', k=6)))
+GAME_KEY     = os.environ.get('GAME_KEY', ''.join(random.choices('ABCDEFGHJKLMNPQRSTUVWXYZ23456789', k=6))).strip()
 MAX_ROOMS    = int(os.environ.get('MAX_ROOMS', 10))
 ROOM_TTL_SEC = 7200   # 2時間で未使用ルームを削除
 RATE_LIMIT   = 5      # 同一IPから60秒以内の接続上限
