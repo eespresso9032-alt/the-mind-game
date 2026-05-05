@@ -50,7 +50,6 @@ def deal_cards(room):
     idx = 0
     for p in room['players']:
         p['cards'] = sorted(deck[idx:idx + 3])
-        p['bananas'] = 1
         idx += 3
     room['playedCards'] = []
     room['last_active'] = time.time()
@@ -192,6 +191,8 @@ async def ws_handler(request):
                 room['stars']  = 1
                 room['level']  = 1
                 room['status'] = 'playing'
+                for p in room['players']:
+                    p['bananas'] = 1
                 deal_cards(room)
                 await bcast_with_cards(room, 'gameStarted')
 
@@ -271,6 +272,8 @@ async def ws_handler(request):
                 room['stars']  = 1
                 room['level']  = 1
                 room['status'] = 'playing'
+                for p in room['players']:
+                    p['bananas'] = 1
                 deal_cards(room)
                 await bcast_with_cards(room, 'gameStarted')
 
