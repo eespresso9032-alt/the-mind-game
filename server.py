@@ -334,5 +334,6 @@ if __name__ == '__main__':
     print(f'\n🧠 The Mind サーバー起動！')
     print(f'   http://localhost:{PORT}')
     print(f'\n🔑 ゲームキー: {GAME_KEY}')
+    print(f'   (RAW: {GAME_KEY!r})')
     print(f'   (変更: GAME_KEY=yourkey python3 server.py)\n')
     web.run_app(app, host='0.0.0.0', port=PORT, print=lambda _: None)
