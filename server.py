@@ -190,6 +190,7 @@ async def ws_handler(request):
                 room['lives']  = len(room['players'])
                 room['stars']  = 1
                 room['level']  = 1
+                room['round']  = 1
                 room['status'] = 'playing'
                 for p in room['players']:
                     p['bananas'] = 1
@@ -271,6 +272,7 @@ async def ws_handler(request):
                 room['lives']  = len(room['players'])
                 room['stars']  = 1
                 room['level']  = 1
+                room['round']  = 1
                 room['status'] = 'playing'
                 for p in room['players']:
                     p['bananas'] = 1

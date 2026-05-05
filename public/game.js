@@ -242,7 +242,7 @@ function handle(d) {
       showOverlay({
         icon: '💀',
         title: 'ゲームオーバー',
-        msg: `${d.playerName} が ${d.wrongCard} を出してミス…\nレベル ${d.room.level} で力尽きた`,
+        msg: `${d.playerName} が ${d.wrongCard} を出してミス…\nラウンド ${d.room.round} で力尽きた`,
         showRestart: d.room.host === myId,
         showLobby: d.room.host === myId,
       });
