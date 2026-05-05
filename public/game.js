@@ -71,6 +71,7 @@ function showOverlay({ icon, title, msg, showRestart, showLobby }) {
   document.getElementById('overlay').classList.remove('hidden');
 }
 function hideOverlay() { document.getElementById('overlay').classList.add('hidden'); }
+function hideBananaPicker() { document.getElementById('banana-picker').classList.add('hidden'); }
 
 // ── Lobby ──────────────────────────────────────────────
 function renderLobby(r) {
@@ -224,6 +225,7 @@ function handle(d) {
       break;
 
     case 'roundClear': {
+      hideBananaPicker();
       renderGame(d.room);
       sfxLevelClear();
       showOverlay({
@@ -237,6 +239,7 @@ function handle(d) {
     }
 
     case 'gameLost':
+      hideBananaPicker();
       renderGame(d.room);
       sfxGameOver();
       showOverlay({
