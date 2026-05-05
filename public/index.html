@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Mind</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Welcome -->
+  <div id="screen-welcome" class="screen active">
+    <div class="logo">
+      <div class="logo-icon">🧠</div>
+      <h1>The Mind</h1>
+      <p class="tagline">声なき協力、心でつながれ</p>
+    </div>
+    <div class="card-panel">
+      <label>ゲームキー</label>
+      <input id="inp-key" type="text" placeholder="ゲームキーを入力" maxlength="20" autocomplete="off" style="text-transform:uppercase;letter-spacing:0.1em">
+      <label>あなたの名前</label>
+      <input id="inp-name" type="text" placeholder="名前を入力" maxlength="10" autocomplete="off">
+      <button id="btn-create" class="btn-primary">ルームを作る</button>
+      <div class="divider"><span>または</span></div>
+      <input id="inp-code" type="text" placeholder="ルームコード（4文字）" maxlength="4" autocomplete="off" style="text-transform:uppercase;letter-spacing:0.2em;text-align:center">
+      <button id="btn-join" class="btn-secondary">参加する</button>
+    </div>
+  </div>
+
+  <!-- Lobby -->
+  <div id="screen-lobby" class="screen">
+    <div class="lobby-header">
+      <h2>ルームコード</h2>
+      <div class="code-box" id="lobby-code">----</div>
+      <button class="btn-copy" id="btn-copy">コピー</button>
+    </div>
+    <div class="card-panel">
+      <h3>参加者</h3>
+      <div id="lobby-players" class="player-list"></div>
+      <p id="lobby-hint" class="hint">フレンドにルームコードを共有してね</p>
+    </div>
+    <button id="btn-start" class="btn-primary hidden">ゲームスタート</button>
+    <p id="lobby-wait" class="hint center">ホストがゲームを開始するのを待っています…</p>
+  </div>
+
+  <!-- Game -->
+  <div id="screen-game" class="screen">
+    <div class="game-header">
+      <div class="stat">
+        <span class="stat-label">LEVEL</span>
+        <span id="g-level" class="stat-val">1</span>
+      </div>
+      <div class="stat" id="stat-lives">
+        <span class="stat-label">LIFE</span>
+        <span id="g-lives" class="stat-val">❤️❤️❤️</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">STAR</span>
+        <span id="g-stars" class="stat-val">⭐</span>
+      </div>
+    </div>
+
+    <div id="other-players" class="other-players"></div>
+
+    <div class="pile-zone">
+      <div class="pile-label">場のカード</div>
+      <div id="pile-card" class="pile-card">－</div>
+    </div>
+
+    <button id="btn-star" class="btn-star">⭐ 手裏剣を使う</button>
+
+    <div class="hand-zone">
+      <div class="hand-label">あなたの手札</div>
+      <div id="hand-cards" class="hand-cards"></div>
+      <div id="hand-empty" class="hand-empty hidden">手札なし 🎉</div>
+    </div>
+  </div>
+
+  <!-- Result overlay -->
+  <div id="overlay" class="overlay hidden">
+    <div class="overlay-content">
+      <div id="overlay-icon" class="overlay-icon"></div>
+      <h2 id="overlay-title"></h2>
+      <p id="overlay-msg"></p>
+      <button id="btn-restart" class="btn-primary hidden">もう一度</button>
+      <button id="btn-lobby" class="btn-secondary hidden">ロビーへ戻る</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="game.js"></script>
+</body>
+</html>
