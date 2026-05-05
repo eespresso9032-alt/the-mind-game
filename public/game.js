@@ -324,5 +324,9 @@ document.getElementById('btn-banana-cancel').addEventListener('click', () => {
   document.getElementById('banana-picker').classList.add('hidden');
 });
 
+// ── Auto-fill game key from URL ────────────────────────
+const _key = new URLSearchParams(location.search).get('key');
+if (_key) document.getElementById('inp-key').value = _key.toUpperCase();
+
 // ── Start ──────────────────────────────────────────────
 connect();
