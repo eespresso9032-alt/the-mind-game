@@ -50,7 +50,8 @@ def deal_cards(room):
     idx = 0
     for p in room['players']:
         p['cards'] = sorted(deck[idx:idx + 3])
-        idx += room['level']
+        p['bananas'] = 1
+        idx += 3
     room['playedCards'] = []
     room['last_active'] = time.time()
 
@@ -66,7 +67,7 @@ def pub(room):
         'stars':       room['stars'],
         'playedCards': room['playedCards'],
         'status':      room['status'],
-        'players': [{'id': p['id'], 'name': p['name'], 'cardCount': len(p['cards'])}
+        'players': [{'id': p['id'], 'name': p['name'], 'cardCount': len(p['cards']), 'bananas': p.get('bananas', 0)}
                     for p in room['players']],
     }
 
@@ -243,6 +244,26 @@ async def ws_handler(request):
                 await bcast_with_cards(room, 'starUsed', discarded=discarded, usedBy=me['name'])
                 if all_played(room):
                     await advance_level(room)
+
+            elif t == 'useBanana':
+                if not room or room['status'] != 'playing': continue
+                player = next((p for p in room['players'] if p['id'] == cid), None)
+                if not player or player.get('bananas', 0) <= 0: continue
+                target = next((p for p in room['players'] if p['id'] == d.get('targetId')), None)
+                if not target or target['id'] == cid: continue
+                if not player['cards'] or not target['cards']: continue
+                pc = random.choice(player['cards'])
+                tc = random.choice(target['cards'])
+                player['cards'] = sorted([c for c in player['cards'] if c != pc] + [tc])
+                target['cards'] = sorted([c for c in target['cards'] if c != tc] + [pc])
+                player['bananas'] -= 1
+                await bcast(room, 'bananaUsed', fromName=player['name'], toName=target['name'])
+                pw = clients.get(player['id'], {}).get('ws')
+                if pw and not pw.closed:
+                    await pw.send_json({'type': 'yourCards', 'cards': player['cards']})
+                tw = clients.get(target['id'], {}).get('ws')
+                if tw and not tw.closed:
+                    await tw.send_json({'type': 'yourCards', 'cards': target['cards']})
 
             elif t == 'restartGame':
                 if not room or room['host'] != cid or room['status'] not in ('won', 'lost'): continue

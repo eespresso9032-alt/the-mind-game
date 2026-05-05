@@ -67,7 +67,17 @@
       <div id="pile-card" class="pile-card">－</div>
     </div>
 
-    <button id="btn-star" class="btn-star">⭐ 手裏剣を使う</button>
+    <div class="action-buttons">
+      <button id="btn-star" class="btn-star">⭐ 手裏剣を使う</button>
+      <button id="btn-banana" class="btn-banana">🍌 バナナを使う</button>
+    </div>
+
+    <!-- バナナ相手選択 -->
+    <div id="banana-picker" class="banana-picker hidden">
+      <p>交換する相手を選んでね</p>
+      <div id="banana-targets" class="banana-targets"></div>
+      <button id="btn-banana-cancel" class="btn-secondary">キャンセル</button>
+    </div>
 
     <div class="hand-zone">
       <div class="hand-label">あなたの手札</div>

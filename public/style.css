@@ -92,6 +92,32 @@ input[type="text"]:focus { border-color: rgba(255,255,255,0.5); }
 }
 .btn-star:disabled { opacity: 0.3; cursor: not-allowed; }
 
+.action-buttons { display: flex; flex-direction: column; gap: 8px; }
+
+.btn-banana {
+  border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; transition: transform 0.1s, opacity 0.1s; padding: 12px;
+  width: 100%;
+  background: rgba(255, 200, 50, 0.15);
+  color: #ffe066;
+  border: 2px solid rgba(255,200,50,0.35);
+}
+.btn-banana:active { transform: scale(0.97); opacity: 0.85; }
+.btn-banana:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.banana-picker {
+  background: var(--panel); border-radius: var(--radius); padding: 16px;
+  display: flex; flex-direction: column; gap: 10px; text-align: center;
+}
+.banana-picker p { color: var(--muted); font-size: 0.9rem; }
+.banana-targets { display: flex; flex-direction: column; gap: 8px; }
+.banana-target-btn {
+  background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 10px; color: var(--text); font-size: 1rem; font-weight: 700;
+  padding: 12px; cursor: pointer; transition: background 0.15s;
+}
+.banana-target-btn:active { background: rgba(255,255,255,0.2); }
+
 .hidden { display: none !important; }
 
 /* ── Lobby ── */

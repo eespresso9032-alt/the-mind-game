@@ -94,6 +94,8 @@ function renderGame(r) {
   document.getElementById('g-lives').textContent = '❤️'.repeat(Math.max(0, r.lives)) || '－';
   document.getElementById('g-stars').textContent = r.stars > 0 ? '⭐'.repeat(r.stars) : '－';
   document.getElementById('btn-star').disabled = r.stars <= 0;
+  const me = r.players.find(p => p.id === myId);
+  document.getElementById('btn-banana').disabled = !me || me.bananas <= 0;
 
   const last = r.playedCards.length > 0 ? r.playedCards[r.playedCards.length - 1] : null;
   document.getElementById('pile-card').textContent = last ?? '－';
@@ -216,6 +218,11 @@ function handle(d) {
       );
       break;
 
+    case 'bananaUsed':
+      renderGame(d.room);
+      showToast(`🍌 ${d.fromName} と ${d.toName} がカード交換！`, 'star', 3000);
+      break;
+
     case 'roundClear': {
       renderGame(d.room);
       sfxLevelClear();
@@ -292,6 +299,27 @@ document.getElementById('btn-restart').addEventListener('click', () => {
   hideOverlay();
 });
 document.getElementById('btn-lobby').addEventListener('click', () => send('returnToLobby'));
+
+document.getElementById('btn-banana').addEventListener('click', () => {
+  if (!room) return;
+  const others = room.players.filter(p => p.id !== myId);
+  const picker = document.getElementById('banana-picker');
+  const targets = document.getElementById('banana-targets');
+  targets.innerHTML = others.map(p =>
+    `<button class="banana-target-btn" data-id="${p.id}">${p.name}</button>`
+  ).join('');
+  targets.querySelectorAll('.banana-target-btn').forEach(btn =>
+    btn.addEventListener('click', () => {
+      send('useBanana', { targetId: btn.dataset.id });
+      picker.classList.add('hidden');
+    })
+  );
+  picker.classList.remove('hidden');
+});
+
+document.getElementById('btn-banana-cancel').addEventListener('click', () => {
+  document.getElementById('banana-picker').classList.add('hidden');
+});
 
 // ── Start ──────────────────────────────────────────────
 connect();
